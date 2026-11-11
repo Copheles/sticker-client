@@ -4,22 +4,23 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #141414;
-  --card: #ffffff;
-  --card-foreground: #141414;
-  --primary: #ff2d8a;
+  color-scheme: light;
+  --background: #f8f5ec;
+  --foreground: #171916;
+  --card: #fffdf7;
+  --card-foreground: #171916;
+  --primary: #2947dc;
   --primary-foreground: #ffffff;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #141414;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #ffe8f2;
-  --accent-foreground: #9d1454;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #ff2d8a;
-  --radius: 0.625rem;
+  --secondary: #eee9dd;
+  --secondary-foreground: #262820;
+  --muted: #f0ece2;
+  --muted-foreground: #696b62;
+  --accent: #f4dc67;
+  --accent-foreground: #292713;
+  --border: #dfdbcf;
+  --input: #d9d5ca;
+  --ring: #2947dc;
+  --radius: 0.75rem;
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
 }
 
@@ -48,24 +49,41 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/40;
   }
   body {
     @apply bg-background font-sans text-foreground antialiased;
+    background-image: radial-gradient(#1a21120b 0.7px, transparent 0.7px);
+    background-size: 7px 7px;
+  }
+  ::selection {
+    color: var(--primary-foreground);
+    background: var(--primary);
+  }
+  a,
+  button,
+  input {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
 .checkerboard {
-  background-color: #fafafa;
+  background-color: #fbfaf6;
   background-image:
-    linear-gradient(45deg, #eee 25%, transparent 25%),
-    linear-gradient(-45deg, #eee 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #eee 75%),
-    linear-gradient(-45deg, transparent 75%, #eee 75%);
+    linear-gradient(45deg, #e9e6df 25%, transparent 25%),
+    linear-gradient(-45deg, #e9e6df 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e9e6df 75%),
+    linear-gradient(-45deg, transparent 75%, #e9e6df 75%);
   background-size: 16px 16px;
-  background-position:
-    0 0,
-    0 8px,
-    8px -8px,
-    -8px 0;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.display-serif {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+}
+
+.paper-shadow {
+  box-shadow: 0 2px 4px #2222140b, 0 16px 40px #2222140a;
 }

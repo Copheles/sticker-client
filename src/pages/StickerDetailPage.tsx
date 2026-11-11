@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { Check, ExternalLink, ImageIcon, Plus } from "lucide-react";
+import { Check, ExternalLink, Heart, ImageIcon, Plus, Sparkles } from "lucide-react";
 import { fetchPublicProduct, fetchPublicProducts } from "@/api/public.api";
 import { resolveMediaUrl } from "@/lib/api";
 import { usePicks } from "@/context/PicksContext";
@@ -20,164 +20,53 @@ function fileLabelFromUrl(url: string | null): string {
 export function StickerDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const { addPick, isInPicks } = usePicks();
-
-  const productQuery = useQuery({
-    queryKey: ["public", "product", slug],
-    queryFn: () => fetchPublicProduct(slug!),
-    enabled: Boolean(slug),
-  });
-
+  const productQuery = useQuery({ queryKey: ["public", "product", slug], queryFn: () => fetchPublicProduct(slug!), enabled: Boolean(slug) });
   const product = productQuery.data;
   const categorySlug = product?.category.slug;
   const alreadyPicked = product ? isInPicks(product.slug) : false;
-
-  const relatedQuery = useQuery({
-    queryKey: ["public", "products", categorySlug],
-    queryFn: () => fetchPublicProducts({ category: categorySlug }),
-    enabled: Boolean(categorySlug),
-  });
-
-  const imageUrl = product?.imageUrl
-    ? resolveMediaUrl(product.imageUrl)
-    : null;
+  const relatedQuery = useQuery({ queryKey: ["public", "products", categorySlug], queryFn: () => fetchPublicProducts({ category: categorySlug }), enabled: Boolean(categorySlug) });
+  const imageUrl = product?.imageUrl ? resolveMediaUrl(product.imageUrl) : null;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+    <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 sm:py-12 lg:px-12">
       {productQuery.isLoading ? (
-        <div className="grid gap-8 lg:grid-cols-2">
-          <Skeleton className="aspect-square w-full rounded-2xl" />
-          <Skeleton className="h-64 w-full rounded-2xl" />
-        </div>
+        <div className="grid gap-8 lg:grid-cols-2"><Skeleton className="aspect-square w-full rounded-[1.5rem]" /><Skeleton className="h-80 w-full rounded-[1.5rem]" /></div>
       ) : product ? (
         <>
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-10">
-            <Card className="overflow-hidden border-zinc-200 p-4 shadow-sm sm:p-5">
-              <div className="checkerboard aspect-square rounded-lg">
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={product.name}
-                    className="size-full object-contain p-4 sm:p-6"
-                  />
-                ) : (
-                  <div className="flex size-full items-center justify-center text-zinc-300">
-                    <ImageIcon className="size-16" strokeWidth={1} />
-                  </div>
-                )}
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.8fr)] lg:items-center lg:gap-12">
+            <Card className="paper-shadow overflow-hidden rounded-[1.5rem] border-[#e3ded2] bg-[#fffdf7] p-3 sm:p-5">
+              <div className="checkerboard flex aspect-square items-center justify-center overflow-hidden rounded-[1rem] p-5 sm:p-8">
+                {imageUrl ? <img src={imageUrl} alt={product.name} className="size-full object-contain" /> : <ImageIcon className="size-16 text-muted-foreground/40" strokeWidth={1} aria-hidden="true" />}
               </div>
-              {imageUrl ? (
-                <p className="mt-3 text-center text-xs text-zinc-400">
-                  Transparent background preview
-                </p>
-              ) : null}
+              {imageUrl && <p className="mt-3 text-center text-[10px] text-[#82837b]">Transparent-background preview · {fileLabelFromUrl(imageUrl)}</p>}
             </Card>
 
-            <div className="space-y-6">
+            <div className="flex flex-col items-start gap-6 py-2 lg:py-8">
+              <Link to={`/c/${product.category.slug}`} className="inline-flex items-center gap-2 rounded-full border border-[#ded9cd] bg-[#fffdf7] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#55584f] transition-colors hover:border-primary/40 hover:text-primary"><Sparkles className="size-3.5 text-primary" aria-hidden="true" />{product.category.name}</Link>
               <div>
-                <Link
-                  to={`/c/${product.category.slug}`}
-                  className="text-xs font-semibold uppercase tracking-wider text-primary hover:underline"
-                >
-                  {product.category.name}
-                </Link>
-                <h1 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
-                  {product.name}
-                </h1>
-                {product.description ? (
-                  <p className="mt-4 text-sm leading-relaxed text-zinc-600 sm:text-base">
-                    {product.description}
-                  </p>
-                ) : (
-                  <p className="mt-4 text-sm text-zinc-500">
-                    Part of the{" "}
-                    <Link
-                      to={`/c/${product.category.slug}`}
-                      className="font-medium text-zinc-700 underline-offset-2 hover:text-primary hover:underline"
-                    >
-                      {product.category.name}
-                    </Link>{" "}
-                    collection.
-                  </p>
-                )}
+                <h1 className="display-serif text-5xl leading-[0.98] sm:text-6xl">{product.name}</h1>
+                <p className="mt-4 max-w-lg text-sm leading-7 text-[#65675f] sm:text-base">{product.description || <>A little something from our <Link to={`/c/${product.category.slug}`} className="font-semibold text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary">{product.category.name}</Link> collection. Made to brighten up your everyday.</>}</p>
               </div>
 
-              <dl className="divide-y divide-zinc-100 rounded-lg border border-zinc-200 bg-zinc-50/80 text-sm">
-                <div className="flex justify-between gap-4 px-4 py-3">
-                  <dt className="text-zinc-500">Collection</dt>
-                  <dd className="text-right font-medium text-zinc-900">
-                    <Link
-                      to={`/c/${product.category.slug}`}
-                      className="hover:text-primary hover:underline"
-                    >
-                      {product.category.name}
-                    </Link>
-                  </dd>
-                </div>
-                <div className="flex justify-between gap-4 px-4 py-3">
-                  <dt className="text-zinc-500">Format</dt>
-                  <dd className="font-medium text-zinc-900">
-                    {fileLabelFromUrl(imageUrl)}
-                  </dd>
-                </div>
-                <div className="flex justify-between gap-4 px-4 py-3">
-                  <dt className="text-zinc-500">Use</dt>
-                  <dd className="text-right font-medium text-zinc-900">
-                    Browse &amp; preview
-                  </dd>
-                </div>
-              </dl>
-
-              <div className="flex flex-wrap gap-3">
-                <Button
-                  type="button"
-                  className="h-10"
-                  onClick={() =>
-                    addPick({
-                      slug: product.slug,
-                      name: product.name,
-                      imageUrl: product.imageUrl,
-                      categoryName: product.category.name,
-                      categorySlug: product.category.slug,
-                    })
-                  }
-                >
-                  {alreadyPicked ? (
-                    <>
-                      <Check className="size-4" />
-                      Added · add again
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="size-4" />
-                      Add to picks
-                    </>
-                  )}
-                </Button>
-                <Button asChild variant="outline" className="h-10">
-                  <Link to="/picks">View my picks</Link>
-                </Button>
-                {imageUrl ? (
-                  <Button asChild variant="ghost" className="h-10">
-                    <a href={imageUrl} target="_blank" rel="noopener noreferrer">
-                      Full image
-                      <ExternalLink className="size-4" />
-                    </a>
-                  </Button>
-                ) : null}
+              <div className="flex w-full flex-col gap-3 border-y border-[#ded9cd] py-4 text-[12px] sm:flex-row sm:items-center sm:gap-6">
+                <span className="inline-flex items-center gap-2 text-[#676960]"><Heart className="size-3.5 text-primary" aria-hidden="true" /> Picked for the little things</span>
+                <span className="text-[#85867e]">Image format: {fileLabelFromUrl(imageUrl)}</span>
               </div>
+
+              <div className="flex w-full flex-wrap items-center gap-3">
+                <Button type="button" className="h-12 rounded-xl px-5" onClick={() => addPick({ slug: product.slug, name: product.name, imageUrl: product.imageUrl, categoryName: product.category.name, categorySlug: product.category.slug })}>
+                  {alreadyPicked ? <><Check className="size-4" aria-hidden="true" /> Added · add another</> : <><Plus className="size-4" aria-hidden="true" /> Add to my picks</>}
+                </Button>
+                <Button asChild variant="outline" className="h-12 rounded-xl border-[#d9d5ca] bg-[#fffdf7] px-5"><Link to="/picks">View my picks</Link></Button>
+                {imageUrl && <Button asChild variant="ghost" className="h-11 rounded-xl text-[#66685f]"><a href={imageUrl} target="_blank" rel="noopener noreferrer">View image <ExternalLink className="size-3.5" aria-hidden="true" /></a></Button>}
+              </div>
+              <p className="max-w-md text-[11px] leading-5 text-[#86877f]">Collect a few favorites, then keep them together in your picks. No checkout, just a handy little shortlist.</p>
             </div>
           </div>
-
-          <RelatedStickers
-            categoryName={product.category.name}
-            categorySlug={product.category.slug}
-            currentSlug={product.slug}
-            products={relatedQuery.data?.products}
-            isLoading={relatedQuery.isLoading}
-          />
+          <RelatedStickers categoryName={product.category.name} categorySlug={product.category.slug} currentSlug={product.slug} products={relatedQuery.data?.products} isLoading={relatedQuery.isLoading} />
         </>
       ) : (
-        <p className="py-16 text-center text-zinc-500">Sticker not found.</p>
+        <div className="rounded-2xl border border-dashed border-[#d7d2c6] bg-[#fffdf7]/70 px-5 py-16 text-center"><p className="display-serif text-3xl">We couldn&apos;t find that sticker.</p><Link to="/search" className="mt-3 inline-block text-sm font-semibold text-primary underline underline-offset-4">Back to the collection</Link></div>
       )}
     </div>
   );
