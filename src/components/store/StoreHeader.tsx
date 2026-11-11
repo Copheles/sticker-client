@@ -1,6 +1,7 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Search, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { Logo } from "@/components/Logo";
 import { Input } from "@/components/ui/input";
 import { usePicks } from "@/context/PicksContext";
 
@@ -20,8 +21,7 @@ export function StoreHeader() {
     <header className="border-b border-[#ded9cd] bg-background/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-3 sm:gap-6 sm:px-7 sm:py-4 lg:px-12">
         <Link to="/" className="group flex shrink-0 items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label="Peel Club home">
-          <span className="flex size-9 items-center justify-center rounded-full bg-primary text-white transition-transform group-hover:-rotate-12"><Sparkles className="size-[18px]" aria-hidden="true" /></span>
-          <span className="text-lg font-black tracking-[-0.07em] text-[#171916] sm:text-xl">peel<span className="text-primary">club</span><span className="align-top text-[10px] font-semibold tracking-normal">®</span></span>
+          <Logo alt="" className="h-11 w-[49px] shrink-0 object-contain mix-blend-multiply transition-transform group-hover:-rotate-2 sm:h-12 sm:w-[53px]" />
         </Link>
         <nav className="hidden items-center gap-6 pl-2 text-[13px] font-medium text-[#575a52] lg:flex" aria-label="Main navigation">
           <Link to="/#collections" className="transition-colors hover:text-primary">Collections</Link>

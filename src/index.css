@@ -9,7 +9,7 @@
   --foreground: #171916;
   --card: #fffdf7;
   --card-foreground: #171916;
-  --primary: #2947dc;
+  --primary: #c20b55;
   --primary-foreground: #ffffff;
   --secondary: #eee9dd;
   --secondary-foreground: #262820;
@@ -19,7 +19,7 @@
   --accent-foreground: #292713;
   --border: #dfdbcf;
   --input: #d9d5ca;
-  --ring: #2947dc;
+  --ring: #c20b55;
   --radius: 0.75rem;
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
 }

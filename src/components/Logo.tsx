@@ -5,7 +5,7 @@ const LOGO_JPG = "/logo.jpg";
 
 export function Logo({
   className,
-  alt = "Sticker store",
+  alt = "Peel Club logo",
 }: {
   className?: string;
   alt?: string;

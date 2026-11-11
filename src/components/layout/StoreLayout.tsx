@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { ArrowUpRight, Heart, Sparkles } from "lucide-react";
+import { Logo } from "@/components/Logo";
 import { StoreHeader } from "@/components/store/StoreHeader";
 import { StoreBreadcrumbBar } from "@/components/store/StoreBreadcrumbBar";
 
@@ -17,8 +18,8 @@ export function StoreLayout() {
       <footer className="mt-10 border-t border-[#ded9cd] bg-[#f0ece2]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-8 px-5 py-10 sm:px-8 md:flex-row md:items-end md:justify-between lg:px-12 lg:py-12">
           <div>
-            <Link to="/" className="inline-flex items-center gap-2 text-xl font-black tracking-[-0.07em] text-[#171916]">
-              <span className="flex size-8 items-center justify-center rounded-full bg-primary text-white"><Sparkles className="size-4" aria-hidden="true" /></span>peel<span className="-ml-2 text-primary">club</span>
+            <Link to="/" aria-label="Peel Club home" className="inline-flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <Logo alt="" className="h-12 w-[53px] object-contain mix-blend-multiply" />
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-6 text-[#686a61]">A small collection of good things to stick around for.</p>
           </div>
