@@ -112,7 +112,7 @@ export function StoreBreadcrumbBar() {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="w-full bg-[#141414] text-zinc-300"
+      className="w-full border-b border-[#e8e4da] bg-[#f8f5ec] text-[#73756c]"
     >
       <ol className="mx-auto flex max-w-6xl flex-wrap items-center gap-1.5 px-4 py-2.5 text-sm sm:px-6">
         {crumbs.map((crumb, index) => {
@@ -128,7 +128,7 @@ export function StoreBreadcrumbBar() {
               {showLink ? (
                 <Link
                   to={crumb.to!}
-                  className="font-medium text-zinc-400 transition-colors hover:text-white"
+                  className="font-medium text-[#73756c] transition-colors hover:text-primary"
                 >
                   {crumb.label}
                 </Link>
@@ -136,7 +136,7 @@ export function StoreBreadcrumbBar() {
                 <span
                   className={cn(
                     "font-medium",
-                    isLast ? "text-white" : "text-zinc-400",
+                    isLast ? "text-[#2c2f28]" : "text-[#73756c]",
                     isLast && isLoading && "animate-pulse text-zinc-500",
                   )}
                   aria-current={isLast ? "page" : undefined}
